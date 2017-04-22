@@ -1,0 +1,300 @@
+<div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a
+
+        href="https://github.com/andrewkeig/express-validation"
+
+    >express-validation (v1.0.2)</a>
+</h1>
+<h4>express-validation is a middleware that validates the body, params, query, headers and cookies of a request and returns a response with errors; if any of the configured validation rules fail.</h4>
+<div class="apidocSectionDiv"><a
+    href="#apidoc.tableOfContents"
+    id="apidoc.tableOfContents"
+><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.express-validation">module express-validation</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.express-validation.express-validation">
+            function <span class="apidocSignatureSpan"></span>express-validation
+            <span class="apidocSignatureSpan">(schema)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.express-validation.ValidationError">
+            function <span class="apidocSignatureSpan">express-validation.</span>ValidationError
+            <span class="apidocSignatureSpan">(errors, options)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.express-validation.options">
+            function <span class="apidocSignatureSpan">express-validation.</span>options
+            <span class="apidocSignatureSpan">(opts)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">express-validation.</span>ValidationError.prototype</span>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.express-validation.ValidationError">module express-validation.ValidationError</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.express-validation.ValidationError.ValidationError">
+            function <span class="apidocSignatureSpan">express-validation.</span>ValidationError
+            <span class="apidocSignatureSpan">(errors, options)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.express-validation.ValidationError.prototype">module express-validation.ValidationError.prototype</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.express-validation.ValidationError.prototype.toJSON">
+            function <span class="apidocSignatureSpan">express-validation.ValidationError.prototype.</span>toJSON
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.express-validation.ValidationError.prototype.toString">
+            function <span class="apidocSignatureSpan">express-validation.ValidationError.prototype.</span>toString
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.express-validation" id="apidoc.module.express-validation">module express-validation</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.express-validation.express-validation" id="apidoc.element.express-validation.express-validation">
+        function <span class="apidocSignatureSpan"></span>express-validation
+        <span class="apidocSignatureSpan">(schema)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">express-validation = function (schema) {
+  if (!schema) throw new Error(&#x27;Please provide a validation schema&#x27;);
+
+  return function (req, res, next)  {
+    var errors = [];
+
+    // Set default options
+    var options = defaults({}, schema.options || {}, globalOptions, defaultOptions);
+
+    // NOTE: mutates `errors`
+    [&#x27;headers&#x27;, &#x27;body&#x27;, &#x27;query&#x27;, &#x27;params&#x27;, &#x27;cookies&#x27;].forEach(function (key) {
+      var allowUnknown = options[unknownMap[key]];
+      var entireContext = options.contextRequest ? req : null;
+      if (schema[key]) validate(errors, req[key], schema[key], key, allowUnknown, entireContext);
+    });
+
+    if (errors &#x26;&#x26; errors.length === 0) return next();
+
+    return next(new ValidationError(errors, options));
+  };
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.express-validation.ValidationError" id="apidoc.element.express-validation.ValidationError">
+        function <span class="apidocSignatureSpan">express-validation.</span>ValidationError
+        <span class="apidocSignatureSpan">(errors, options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function ValidationError(errors, options) {
+  this.message = &#x27;validation error&#x27;;
+  this.errors = errors;
+  this.flatten = options.flatten;
+  this.status = options.status;
+  this.statusText = options.statusText;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.express-validation.options" id="apidoc.element.express-validation.options">
+        function <span class="apidocSignatureSpan">express-validation.</span>options
+        <span class="apidocSignatureSpan">(opts)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">options = function (opts) {
+  if (!opts) {
+    globalOptions = {};
+    return;
+  }
+
+  globalOptions = defaults({}, globalOptions, opts);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+### Global options
+Status code and text can also be customized globally. At the same time specific behaviour still applies.
+
+```js
+var ev = require(&#x27;express-validation&#x27;);
+// assign options
+ev.<span class="apidocCodeKeywordSpan">options</span>({
+  status: 422,
+  statusText: &#x27;Unprocessable Entity&#x27;
+});
+
+// clear options back to default
+ev.options();
+```
+...</pre></li>
+    </ul>
+
+
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.express-validation.ValidationError" id="apidoc.module.express-validation.ValidationError">module express-validation.ValidationError</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.express-validation.ValidationError.ValidationError" id="apidoc.element.express-validation.ValidationError.ValidationError">
+        function <span class="apidocSignatureSpan">express-validation.</span>ValidationError
+        <span class="apidocSignatureSpan">(errors, options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function ValidationError(errors, options) {
+  this.message = &#x27;validation error&#x27;;
+  this.errors = errors;
+  this.flatten = options.flatten;
+  this.status = options.status;
+  this.statusText = options.statusText;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.express-validation.ValidationError.prototype" id="apidoc.module.express-validation.ValidationError.prototype">module express-validation.ValidationError.prototype</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.express-validation.ValidationError.prototype.toJSON" id="apidoc.element.express-validation.ValidationError.prototype.toJSON">
+        function <span class="apidocSignatureSpan">express-validation.ValidationError.prototype.</span>toJSON
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">toJSON = function () {
+  if (this.flatten) return flatten(map(this.errors, &#x27;messages&#x27;));
+  return {
+    status: this.status,
+    statusText: this.statusText,
+    errors: this.errors
+  };
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.express-validation.ValidationError.prototype.toString" id="apidoc.element.express-validation.ValidationError.prototype.toString">
+        function <span class="apidocSignatureSpan">express-validation.ValidationError.prototype.</span>toString
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">toString = function () {
+  return JSON.stringify(this.toJSON());
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
