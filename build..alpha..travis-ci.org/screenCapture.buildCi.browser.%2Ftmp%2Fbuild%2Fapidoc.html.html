@@ -264,7 +264,23 @@ ev.options();
     errors: this.errors
   };
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+this.flatten = options.flatten;
+this.status = options.status;
+this.statusText = options.statusText;
+};
+ValidationError.prototype = Object.create(Error.prototype);
+
+ValidationError.prototype.toString = function () {
+return JSON.stringify(this.<span class="apidocCodeKeywordSpan">toJSON</span>());
+};
+
+ValidationError.prototype.toJSON = function () {
+if (this.flatten) return flatten(map(this.errors, 'messages'));
+return {
+  status: this.status,
+  statusText: this.statusText,
+...</pre></li>
     </ul>
 
 
