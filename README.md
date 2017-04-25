@@ -1,6 +1,6 @@
 # npmdoc-express-validation
 
-#### api documentation for  [express-validation (v1.0.2)](https://github.com/andrewkeig/express-validation)  [![npm package](https://img.shields.io/npm/v/npmdoc-express-validation.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-express-validation) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-express-validation.svg)](https://travis-ci.org/npmdoc/node-npmdoc-express-validation)
+#### basic api documentation for  [express-validation (v1.0.2)](https://github.com/andrewkeig/express-validation)  [![npm package](https://img.shields.io/npm/v/npmdoc-express-validation.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-express-validation) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-express-validation.svg)](https://travis-ci.org/npmdoc/node-npmdoc-express-validation)
 
 #### express-validation is a middleware that validates the body, params, query, headers and cookies of a request and returns a response with errors; if any of the configured validation rules fail.
 
